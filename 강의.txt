@@ -28,6 +28,18 @@
 	EOD;
 	
 	
+	참조변수
+	&$a -> $a변수의 주소값
+	
+	동적변수 
+	$school = "연희직업전문학교";
+	$a = 'school';
+	echo $$a; // $$a == $school 
+
+	define("상수명", 값);
+		- 대문자, 단어 사이 _ 입력
+		
+	
 2.1 연산자
   산술연산자(+,-,*,/ %)
   
@@ -101,10 +113,79 @@
 					
 	- unset  - 변수/배열 키값의 값을 비울때
 	
+	- 배열의 요소의 갯수 체크 하는 함수 - count() / sizeof()
 	
+	- 
+	foreach ($배열 변수 as $key => $value ) {
+	
+	}
+	
+	foreach ($배열 변수 as $value ) {
+	
+	}
 	
 6. 함수
+	1)
+		function 함수명 (매개변수) {
+			
+			return "반환값";
+		}
+
+	2) 익명함수
+		함수 이름이 없는 함수
+		-> 함수를 가장한 클로져 객체 
+		   (Closure 인스턴스 - __invoke()가 호출되면서 실행)
+		
+		1) 함수를 매개변수로 사용할때 
+			function outerFunc($fruits, $callback) {
+				foreach ($fruits as $index => $fruit) {
+					$callback($fruit, $index);
+				}
+			}
+
+
+			$fruits = ["apple", "orange", "mango", "banana"];
+			outerFunc($fruits, function($fruit, $index) {
+				printf("%d = %s <br>", $index, $fruit);
+			});
+			
+		2) 반환값으로 함수(익명함수, 클로져 인스턴스)를 사용할때 
+			function outerFunc($num1) {
+	
+				return function ($num2) use ($num1) {
+						return $num1 + $num2;
+				};
+			}
+
+			$outer = outerFunc(10);
+			echo $outer(30);
+	
 7. 객체
+	class 구문 기반 
+		
+		접근제어자 $변수명;  // 멤버 변수 
+		
+		
+		접근제어자 function 메서드명 (........) {
+			
+		}
+	
+		$this->속성명
+		$this->메서드명
+		
+		속성 접근 연산자  -> 
+		
+		생성자 메서드 __construct() 생성자 함수 
+		   1. 인스턴스 생성 
+		   2. 인스턴스 변수의 초기화
+		   3. 반환값 X(return X)
+		
+		
+		접근제어자
+			public -> 클래스 내부, 외부에서 접근이 가능 
+			protected -> private과 동일 -> 상속을 통해서 상속받은 클래스 내부에서 접근 가능 
+			private -> 클래스 내부에서만 접근 가능 
+		
 8. 데이터베이스
 9.쿠키
 10. 세션
