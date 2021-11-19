@@ -210,10 +210,38 @@
 		
 	4) 추상 클래스 
 	5) 인터페이스
-	
-	
+		implements 
+		
 8. 	데이터베이스
+	PDO(PHP Data Object)
+	PDO::__construct($dsn - 데이터베이스 엔진 접속 정보, $username, $password)  throws PDOException 
+		PDO::exec - (executeUpdate) - DELETE, UPDATE, INSERT ... 
+		     - 반영된 투플의 갯수
+		PDO::query - (executeQuery) - SELECT	
+			- PDOStatement 인스턴스 반환 -> 데이터 조회 
+					- fetch   -> 조회된 투플을 다음 투플로 이동하면서 가져온다
+	
+	
+	
+	
+	
 9.쿠키
 10. 세션
+
+
+
+11. 파일 추가 
+include "파일 경로"; // 파일이 없는 경우 경고 발생(스크립트 실행 유지)
+require "파일 경로"; // 파일이 없는 경우 에러 발생(스크립트 중단)
+
+같은 파일을 여러번 추가 하더라도 단 한번만 추가 
+include_once "파일 경로"; 
+require_once "파일 경로";
+
+
+
+__DIR__ -> 현재 실행중인 파일의 디렉토리 절대 경로
+__FILE__ -> 현재 실행중인 파일의 절대 경로
+
 
 
