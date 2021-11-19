@@ -5,7 +5,7 @@ class A {
 	public $num2 = 20;
 	
 	public function method() {
-		
+		//self::NUM1;
 	}
 }
 

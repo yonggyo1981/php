@@ -18,3 +18,7 @@ class B extends A {
 $b = new B();
 echo $b->numA . "<br>";
 echo $b->methodA();
+
+/*** **/
+echo "<br>";
+echo $b instanceof B;
