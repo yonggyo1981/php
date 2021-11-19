@@ -221,10 +221,21 @@
 			- PDOStatement 인스턴스 반환 -> 데이터 조회 
 					- fetch   -> 조회된 투플을 다음 투플로 이동하면서 가져온다
 	
+							PDO::FETCH_ASSOC -> 연관배열(테이블속성 => 값)
+							PDO::FETCH_NUM -> 인덱스 배열(인덱스 => 값)
+							PDO::FETCH_BOTH -> 연관배열 + 인덱스 배열(기본값)
+				
 	
-	
-	
-	
+		PDO::prepare - PrepareStatement
+				-> SQL 구문을 준비 + 바인딩할 변수
+				-> PDOStatement 인스턴스 반환
+						-> 값을 바인딩 
+						
+				-> SQL 실행(PDO::execute());
+				
+		
+		
+		
 9.쿠키
 10. 세션
 

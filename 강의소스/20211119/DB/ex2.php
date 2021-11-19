@@ -6,7 +6,9 @@ try {
 	$db = new PDO($dsn, $username, $password);
 	$sql = "SELECT * FROM member";
 	$stmt = $db->query($sql);
-	while($row = $stmt->fetch()) {
+	//while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+	//while($row = $stmt->fetch(PDO::FETCH_NUM)) {
+	while($row = $stmt->fetch(PDO::FETCH_BOTH)) {
 		echo "<pre>";
 		print_r($row);
 		echo "</pre>";
