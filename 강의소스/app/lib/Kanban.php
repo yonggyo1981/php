@@ -29,7 +29,23 @@ class Kanban {
 	
 	/** 작업 추가 */
 	public function addWork($data) {
+		$this->checkData($data); // 데이터 유효성 검사 
 		
+		$sql = "INSERT INTO worklist (memNo, status, subject, content) 
+							VALUES (:memNo, :status, :subject, :content)";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memNo", $data['memNo']);
+		$stmt->bindValue(":status", $data['status']);
+		$stmt->bindValue(":subject", $data['subject']);
+		$stmt->bindValue(":content", $data['content']);
+		$result = $stmt->execute();
+		if (!$result) {
+			return false;
+		}
+		
+		$idx = $this->db->lastInsertId();
+		
+		return $idx;
 	}
 	
 	/** 작업 수정 */
