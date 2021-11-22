@@ -301,4 +301,7 @@ Y-m-d H:i:s
 자바
 yyyy-MM-dd HH:mm:ss
 
+문자열로 되어 있는 시간 -> timestamp(초단위 정수)
+strtotime("문자열 시간");
+
 

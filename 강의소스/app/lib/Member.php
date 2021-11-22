@@ -284,6 +284,29 @@ class Member {
 	
 	/** 토큰으로 회원정보 조회 */
 	public function getByToken($token) {
+		if (!isset($token) || !$token) {
+			throw new Exception("토큰이 누락되었습니다.");
+		}
 		
+		$sql = "SELECT * FROM member WHERE token = :token";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":token", $token);
+		$result = $stmt->execute();
+		if (!$result) {
+			return false;
+		}
+		
+		$data = $stmt->fetch(PDO::FETCH_ASSOC);
+		if (!$data) {
+			throw new Exception("존재하지 않는 회원입니다.");
+		}
+		
+		// 토큰 만료 체크 
+		$expireTime = strtotime($data['tokenExpires']);
+		if ($expireTime < time()) {
+			throw new Exception("토큰이 만료 되었습니다.");
+		}
+		
+		unset($data['memPw']);
 	}
 }
