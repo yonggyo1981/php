@@ -21,6 +21,22 @@ class Member {
 	
 	/** 회원 가입 */
 	public function join($data) {
+		$this->checkJoinData($data);
+		
+		$hash = "";
+		$cellPhone = "";
+		$sql = "INSERT INTO member (memId, memPw, memNm, cellPhone)
+					VALUES (:memId, :memPw, :memNm, :cellPhone)";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memId", $data['memId']);
+		$stmt->bindValue(":memPw", $hash);
+		$stmt->bindValue(":memNm", $data['memNm']);
+		$stmt->bindValue(":cellPhone", $cellPhone);
+		$result = $stmt->execute(); // true, false 
+		if (!$result) { // SQL 실행 실패 -> SQL 오류 
+			$errorInfo = $this->db->errorInfo();
+			throw new Exception(implode("/", $errorInfo));
+		}
 		
 	}
 	
