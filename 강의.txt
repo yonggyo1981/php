@@ -280,7 +280,10 @@ password_hash 함수
 정규표현식 함수 
 preg_..... 정규표현식 지원 
 
-preg_replace
+preg_replace - 정규표현식으로 치환
+preg_match -> 정규표현식 일치 여부
+
+문자열의 길이 - strlen(문자열)
 
 
 

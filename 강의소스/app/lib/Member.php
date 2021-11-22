@@ -70,7 +70,53 @@ class Member {
 	*   6. 휴대전화번호는 필수 X -> 입력된 경우는 휴대전화번호 형식 체크
 	*/
 	public function checkJoinData($data) {
+		// 필수 항목 체크 
+		$required = [
+			"memId" => "아이디를 입력하세요.",
+			"memPw" => "비밀번호를 입력하세요.",
+			"memPwRe" => "비밀번호를 확인하세요.",
+			"memNm" => "회원명을 입력하세요.",
+		];
 		
+		foreach ($required as $key => $msg) {
+			if (!isset($data[$key]) || ($data[$key] && trim($data[$key]) == "")) {
+				throw new Exception($msg);
+			}
+		}
+		
+		/** 아이디 체크 S */
+		$memId = $data['memId'];
+		if (strlen($memId) < 6) {
+			throw new Exception("아이디는 6자리 이상 입력하세요.");
+		}
+		
+		// 아이디가 알파벳, 숫자로만 구성
+		if (preg_match("/[^0-9a-z]/i", $memId)) { // 숫자 + 알파벳이 아닌 문자가 포함되어 있으면 true
+			throw new Exception("아이디는 알파벳과 숫자로만 입력하세요.");
+		}
+		/** 아이디 체크 E */
+		
+		/** 중복 아이디 체크 S */
+		$sql = "SELECT COUNT(*) cnt FROM member WHERE memId = :memId";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memId", $memId);
+		$result = $stmt->execute(); // true/false
+		if (!$result) {
+			$errorInfo = $this->db->errorInfo();
+			throw new Exception(implode("/", $errorInfo));
+		}
+		
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		if ($row['cnt'] > 0) { // 이미 가입된 경우 
+			throw new Exception("이미 가입된 아이디 입니다. - ".$memId);
+		}		
+		/** 중복 아이디 체크 E */
+		
+		// 비밀번호 체크 
+		$this->checkPassword($data['memPw'], $data['memPwRe']);
+		
+		// 휴대전화번호 형식 체크 
+		$this->checkCellPhone($data['cellPhone']);
 	}
 	
 	/** 비밀번호 체크 */
