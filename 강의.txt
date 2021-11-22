@@ -295,5 +295,10 @@ md5
 	2. hash('md5', 문자열');
 	
 time() -> 현재시간의 1초단위의 timestamp 
+date("포맷", timestamp);
+Y-m-d H:i:s
+
+자바
+yyyy-MM-dd HH:mm:ss
 
 

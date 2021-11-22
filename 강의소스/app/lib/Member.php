@@ -261,9 +261,25 @@ class Member {
 	*	 - 유효시간(2시간)
 	*/
 	public function generateToken($memId) {
-		$hash = md5(uniqid(true));
+		$token = md5(uniqid(true));
 		
 		$expireTime = time() + 60 * 60 * 2;
+		$date = date("Y-m-d H:i:s", $expireTime);
+		$sql = "UPDATE member 
+						SET 
+							token = :token, 
+							tokenExpires = :tokenExpires 
+					WHERE 
+						memId = :memId";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":token", $token);
+		$stmt->bindValue(":tokenExpires", $date);
+		$result = $stmt->execute();
+		if (!$result) {
+			return false;
+		}
+		
+		return $token;
 	}
 	
 	/** 토큰으로 회원정보 조회 */
