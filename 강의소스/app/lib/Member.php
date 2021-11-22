@@ -261,7 +261,9 @@ class Member {
 	*	 - 유효시간(2시간)
 	*/
 	public function generateToken($memId) {
+		$hash = md5(uniqid(true));
 		
+		$expireTime = time() + 60 * 60 * 2;
 	}
 	
 	/** 토큰으로 회원정보 조회 */

@@ -289,3 +289,11 @@ preg_match -> 정규표현식 일치 여부
 
 
 
+중복이 안되는 유일한 값 - uniqid();  // 내부적으로는 1/1000 단위 timestamp를 활용해서 
+md5 
+	1. md5(문자열)
+	2. hash('md5', 문자열');
+	
+time() -> 현재시간의 1초단위의 timestamp 
+
+
