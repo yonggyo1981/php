@@ -121,11 +121,31 @@ class Member {
 	
 	/** 비밀번호 체크 */
 	public function checkPassword($memPw, $memPwRe) {
+		if (!$memPw) { // 수정시에는 입력된 경우만 처리하므로
+			return;
+		}
 		
+		if (strlen($memPw) < 8) {
+			throw new Exception("비밀번호는 8자리 이상 입력하세요.");
+		}
+		
+		if (!preg_match("/[0-9]/", $memPw) || !preg_match("/[a-z]/i", $memPw) || !preg_match("/[~!@#$%^&*()]/", $memPw)) {
+			throw new Exception("비밀번호는 1개이상 알파벳, 숫자, 특수문자로 입력하세요.");
+		}
+		
+		// 비밀번호 확인 
+		if ($memPw != $memPwRe) {
+			throw new Exception("비밀번호를 확인하세요.");
+		}
 	}
 	
 	/** 휴대전화번호 형식 체크 */
 	public function checkCellPhone($cellPhone) {
+		if (!$cellPhone) { // 휴대전화번호는 필수 항목 아니므로 값이 입력된 경우만 체크 
+			return;
+		}
+		
+		$cellPhone = preg_replace("/[^0-9]/", "", $cellPhone);
 		
 	}
 	
