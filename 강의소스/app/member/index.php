@@ -1,5 +1,6 @@
 <?php
 include_once "../common.php";
+
 /**
 * 회원가입, 로그인 처리 
 *
@@ -9,7 +10,7 @@ $returnData = [];
 $message = "";
 $member = Member::getInstance(); // Member 인스턴스
 try {
-	switch ($in['mode']) {
+	switch (Request::get("mode")) {
 		case "join": // 회원가입 처리 
 			$memberInfo = $member->join($in);
 			break;
@@ -19,7 +20,15 @@ try {
 		case "login" : // 로그인 처리 
 			$token = $member->login($in);
 			break;
-		
+		/** 토큰으로 회원 정보 조회 */
+		case "get_member" : 
+			$memberData = $member->getByToken($in['token']);
+			break;
+		default : 
+			if (Request::get("origin") != 'front') {
+				//header("Location : /app");
+				exit;
+			}
 	}
 } catch(Exception $e) {
 	$message = $e->getMessage();
