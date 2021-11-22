@@ -51,7 +51,54 @@ class Member {
 	
 	/** 회원정보 수정 */
 	public function update($data) {
+		/** 필수 항목 체크 S */
+		$required = [
+			'token' => "토큰이 누락되었습니다.",
+			'memNm' => "회원명을 입력하세요.",
+		];
 		
+		foreach ($required as $key => $msg) {
+			if (!isset($data[$key]) || ($data[$key] && trim($data[$key]) == "")) {
+				throw new Exception($msg);
+			}
+		}
+		/** 필수 항목 체크 E */
+		
+		/** 비밀번호 변경 시도 시 -> 비밀번호 유효성 검사 */
+		$this->checkPassword($data['memPw'], $data['memPwRe']);
+		
+		/** 휴대전화번호 형식 체크 */
+		$this->checkCellPhone($data['cellPhone']);
+		
+		$cellPhone = $data['cellPhone']?preg_match("/[^0-9]/", "", $data['cellPhone']):"";
+		
+		$addSet = $hash = "";
+		if ($data['memPw']) {
+			$hash = password_hash($data['memPw'], PASSWORD_BCRYPT, ["cost" => 10]);
+			$addSet = ",memPw = :hash";
+		}
+		
+		$sql = "UPDATE member 
+						SET 
+							memNm = :memNm, 
+							cellPhone = :cellPhone 
+							{$addSet} 
+					WHERE 
+						token = :token";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memNm", $data['memNm']);
+		$stmt->bindValue(":cellPhone", $data['cellPhone']);
+		$stmt->bindValue(":token", $data['token']);
+		if ($hash) { // 비밀번호를 변경하는 경우 
+			$stmt->bindValue(":hash", $hash);
+		}
+		$result = $stmt->execute();
+		if (!$result) {
+			$errorInfo = $this->db->errorInfo();
+			throw new Exception(implode("/", $errorInfo));
+		}
+		
+		return true;
 	}
 	
 	/** 로그인 처리 */
