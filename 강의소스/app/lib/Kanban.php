@@ -120,7 +120,22 @@ class Kanban {
 	* @param $idx 작업 등록번호 
 	*/
 	public function get($idx) {
+		$sql = "SELECT * FROM worklist WHERE idx = :idx";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":idx", $idx);
+		$result = $stmt->execute();
+	
+		if (!$result) {
+			return false;
+		}
 		
+		$data = $stmt->fetch(PDO::FETCH_ASSOC);
+		if ($data) {
+			$data['regDt'] = date("Y.m.d", strtotime($data['regDt']));
+			$data['contentHtml'] = nl2br($data['content']);
+		}
+		
+		return $data;
 	}
 	
 	/** 데이터 유효성 검사 */

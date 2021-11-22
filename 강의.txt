@@ -305,3 +305,6 @@ yyyy-MM-dd HH:mm:ss
 strtotime("문자열 시간");
 
 
+줄개행 문자(\r\n -> <br>)
+nl2br()
+
