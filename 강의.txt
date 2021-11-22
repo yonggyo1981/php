@@ -273,4 +273,14 @@ JSON -> PHP 배열 -> json_decode(JSON 문자열)
 method - GET -> $_GET 
 		   - POST -> $_POST 
 		   - GET, POST, COOKIE -> $_REQUEST
+		   
+BCrypt 암호화 해시 
+password_hash 함수
+
+정규표현식 함수 
+preg_..... 정규표현식 지원 
+
+preg_replace
+
+
 

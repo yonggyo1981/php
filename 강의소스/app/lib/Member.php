@@ -23,8 +23,13 @@ class Member {
 	public function join($data) {
 		$this->checkJoinData($data);
 		
-		$hash = "";
+		$hash = password_hash($data['memPw'], PASSWORD_DEFAULT, ["cost" => 10]);
+		
 		$cellPhone = "";
+		if ($data['cellPhone']) {
+			$cellPhone = preg_replace("/[^0-9]/", "", $data['cellPhone']);
+		}
+		
 		$sql = "INSERT INTO member (memId, memPw, memNm, cellPhone)
 					VALUES (:memId, :memPw, :memNm, :cellPhone)";
 		$stmt = $this->db->prepare($sql);
@@ -38,6 +43,10 @@ class Member {
 			throw new Exception(implode("/", $errorInfo));
 		}
 		
+		$memNo = $this->db->lastInsertId();
+		$memberInfo = $this->get($memNo);
+		
+		return $memberInfo;
 	}
 	
 	/** 회원정보 수정 */
