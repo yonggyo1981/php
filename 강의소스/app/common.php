@@ -9,3 +9,7 @@ include "lib/Kanban.php"; // Kanban 클래스
 
 //$in = $_REQUEST?$_REQUEST:[];
 $in = $_REQUEST ?? [];
+
+$success = false;
+$returnData = [];
+$message = "";

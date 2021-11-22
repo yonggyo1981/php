@@ -5,9 +5,6 @@ include_once "../common.php";
 * 회원가입, 로그인 처리 
 *
 */
-$success = false;
-$returnData = [];
-$message = "";
 $member = Member::getInstance(); // Member 인스턴스
 try {
 	switch (Request::get("mode")) {
@@ -34,10 +31,4 @@ try {
 	$message = $e->getMessage();
 }
 
-$result = [
-	'success' => $success,
-	'data' => $returnData,
-	'message' => $message,
-];
-
-echo json_encode($result);
+include_once "output.php";
