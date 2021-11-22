@@ -82,8 +82,12 @@ class Kanban {
 	
 	/** 작업 삭제 */
 	public function deleteWork($idx) {
-		
+		$sql = "DELETE FROM worklist WHERE idx = :idx";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":idx", $idx);
+		return $stmt->execute();
 	}
+	
 	
 	/**
 	* 작업목록(회원이 작성한)
@@ -92,7 +96,22 @@ class Kanban {
 	* @param $status - ready, progress, done 
 	*/
 	public function getList($memNo, $status) {
+		$sql = "SELECT a.*, m.memId, m.memNm FROM worklist a 
+						LEFT JOIN member m ON a.memNo = m.memNo 
+					WHERE a.memNo = :memNo AND a.status = :status 
+					ORDER BY a.regDt DESC";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memNo", $memNo);
+		$stmt->bindValue(":status", $status);
+		$result = $stmt->execute();
 		
+		$rows = [];
+		while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+			//$rows[] = $row;
+			array_push($rows, $row);
+		}
+		
+		return $rows;
 	}
 	
 	/**
