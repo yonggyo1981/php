@@ -259,4 +259,9 @@ __FILE__ -> 현재 실행중인 파일의 절대 경로
 13. 내장 함수(String, Array ...)
 14. 컴포져
 
+15. 기타
+PHP 배열 -> JSON -> json_encode(배열)
+JSON -> PHP 배열 -> json_decode(JSON 문자열)
+
+출력 헤더 - header("헤더 문구");
 
