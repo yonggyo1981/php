@@ -146,7 +146,10 @@ class Member {
 		}
 		
 		$cellPhone = preg_replace("/[^0-9]/", "", $cellPhone);
-		
+		$pattern = "/^01[016789][0-9]{3,4}[0-9]{4}$/";
+		if (!preg_match($pattern, $cellPhone)) {
+			throw new Exception("휴대전화번호 형식이 아닙니다.");
+		}
 	}
 	
 	/** 
@@ -156,7 +159,30 @@ class Member {
 	* @param $isLogin - 로그인이 되어 있는 경우는 memPw를 정보로 제공 X 
 	*/
 	public function get($memNo, $isLogin) {
+		$field = "memNo";
+		if (!is_numeric($memNo)) { // 숫자가 아니면 -> 회원 아이디 
+			$field = "memId";
+		}
 		
+		$sql = "SELECT * FROM member WHERE {$field} = :{$field}";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":{$field}", $memNo);
+		$result = $stmt->execute(); // true, false
+		if (!$result) {
+			$errorInfo = $this->db->errorInfo(); 
+			throw new Exception(implode("/", $errorInfo));
+		}
+		
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		if (!$row) { // 회원이 없는 경우 
+			return false;
+		}
+		
+		if (!$isLogin) { // 로그인 용도가 아니라면 민감한 데이터인 memPw 제외 
+			unset($row['memPw']);
+		}
+		
+		return $row;
 	}
 	
 	/** 
