@@ -113,7 +113,7 @@ class Member {
 		}
 		
 		// 회원정보 조회
-		$info = $this.get($data['memId'], true);// 비번 비교가 필요 하므로 2번째 매개변수 true
+		$info = $this->get($data['memId'], true);// 비번 비교가 필요 하므로 2번째 매개변수 true
 		if (!$info) {
 			throw new Exception("존재하지 않는 회원입니다.");
 		}
@@ -125,7 +125,7 @@ class Member {
 		}
 		
 		// 토큰 발급 -> vue.js에서 로그인 유지 용도로 사용(유효시간...)
-		$token = $this.generateToken($data['memId']);
+		$token = $this->generateToken($data['memId']);
 		return $token;
 	}
 	
@@ -228,7 +228,7 @@ class Member {
 	* @param $memNo - 정수(is_numeric) - 회원번호, 문자 - 아이디
 	* @param $isLogin - 로그인이 되어 있는 경우는 memPw를 정보로 제공 X 
 	*/
-	public function get($memNo, $isLogin) {
+	public function get($memNo, $isLogin = false) {
 		$field = "memNo";
 		if (!is_numeric($memNo)) { // 숫자가 아니면 -> 회원 아이디 
 			$field = "memId";
@@ -236,7 +236,7 @@ class Member {
 		
 		$sql = "SELECT * FROM member WHERE {$field} = :{$field}";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(":{$field}", $memNo);
+		$stmt->bindValue(":{$field}", $memNo, PDO::PARAM_INT);
 		$result = $stmt->execute(); // true, false
 		if (!$result) {
 			$errorInfo = $this->db->errorInfo(); 
@@ -274,6 +274,7 @@ class Member {
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":token", $token);
 		$stmt->bindValue(":tokenExpires", $date);
+		$stmt->bindValue(":memId", $memId);
 		$result = $stmt->execute();
 		if (!$result) {
 			return false;
@@ -308,5 +309,7 @@ class Member {
 		}
 		
 		unset($data['memPw']);
+		
+		return $data;
 	}
 }

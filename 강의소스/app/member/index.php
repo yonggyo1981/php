@@ -45,12 +45,12 @@ try {
 			break;
 		default : 
 			if (Request::get("origin") != 'front') {
-				header("Location: /app");
+				echo "<script>location.replace('/');</script>";
 				exit;
 			}
 	}
 } catch(Exception $e) {
-	$message = $e->getMessage();
+	$message = $e->getMessage() . "[".$e->getFile()."/".$e->getLine()."]";
 }
 
 include_once "../output.php";

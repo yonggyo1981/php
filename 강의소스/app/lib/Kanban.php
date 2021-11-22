@@ -34,7 +34,7 @@ class Kanban {
 		$sql = "INSERT INTO worklist (memNo, status, subject, content) 
 							VALUES (:memNo, :status, :subject, :content)";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(":memNo", $data['memNo']);
+		$stmt->bindValue(":memNo", $data['memNo'], PDO::PARAM_INT);
 		$stmt->bindValue(":status", $data['status']);
 		$stmt->bindValue(":subject", $data['subject']);
 		$stmt->bindValue(":content", $data['content']);
@@ -53,7 +53,7 @@ class Kanban {
 		$this->required['idx'] = "작업등록번호가 누락되었습니다.";
 		$this->checkData($data);
 		
-		$info = $this.get($data['idx']);
+		$info = $this->get($data['idx']);
 		if (!$info) {
 			throw new Exception("수정할 작업내역이 없습니다.");
 		}
@@ -73,7 +73,7 @@ class Kanban {
 		$stmt->bindValue(":status", $data['status']);
 		$stmt->bindValue(":subject", $data['subject']);
 		$stmt->bindValue(":content", $data['content']);
-		$stmt->bindValue(":idx", $data['idx']);
+		$stmt->bindValue(":idx", $data['idx'], PDO::PARAM_INT);
 		
 		$result = $stmt->execute();
 		
@@ -84,7 +84,7 @@ class Kanban {
 	public function deleteWork($idx) {
 		$sql = "DELETE FROM worklist WHERE idx = :idx";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(":idx", $idx);
+		$stmt->bindValue(":idx", $idx, PDO::PARAM_INT);
 		return $stmt->execute();
 	}
 	
@@ -95,13 +95,13 @@ class Kanban {
 	* @param $memNo 회원번호
 	* @param $status - ready, progress, done 
 	*/
-	public function getList($memNo, $status) {
+	public function getList($memNo, $status = 'ready') {
 		$sql = "SELECT a.*, m.memId, m.memNm FROM worklist a 
 						LEFT JOIN member m ON a.memNo = m.memNo 
 					WHERE a.memNo = :memNo AND a.status = :status 
 					ORDER BY a.regDt DESC";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(":memNo", $memNo);
+		$stmt->bindValue(":memNo", $memNo, PDO::PARAM_INT);
 		$stmt->bindValue(":status", $status);
 		$result = $stmt->execute();
 		
@@ -122,7 +122,7 @@ class Kanban {
 	public function get($idx) {
 		$sql = "SELECT * FROM worklist WHERE idx = :idx";
 		$stmt = $this->db->prepare($sql);
-		$stmt->bindValue(":idx", $idx);
+		$stmt->bindValue(":idx", $idx, PDO::PARAM_INT);
 		$result = $stmt->execute();
 	
 		if (!$result) {

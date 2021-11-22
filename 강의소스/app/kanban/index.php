@@ -35,16 +35,16 @@ try {
 			break;
 		/** 작업 삭제 */
 		case "delete" : 
-			if (!isset($data['idx']) || !$data['idx']) {
+			if (!isset($in['idx']) || !$in['idx']) {
 					throw new Exception("작업등록번호 누락");
 			}
 			
-			$info = $kanban->get($data['idx']);
+			$info = $kanban->get($in['idx']);
 			if (!$info) {
 				throw new Exception("삭제할 작업내역이 없습니다.");
 			}
 			
-			if ($info['memNo'] != $data['memNo']) {
+			if ($info['memNo'] != $in['memNo']) {
 				throw new Exception("본인이 작성한 작업내역만 삭제 가능합니다.");
 			}
 			
@@ -84,7 +84,7 @@ try {
 			break;
 		default :
 			if (Request::get("origin") != 'front') {
-				header("Location: /app");
+				echo "<script>location.replace('/');</script>";
 				exit;
 			}
 	}
