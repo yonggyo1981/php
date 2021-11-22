@@ -275,7 +275,9 @@ method - GET -> $_GET
 		   - GET, POST, COOKIE -> $_REQUEST
 		   
 BCrypt 암호화 해시 
-password_hash 함수
+해시 생성 - password_hash 함수 
+해시 비교 - password_verify 함수 
+
 
 정규표현식 함수 
 preg_..... 정규표현식 지원 

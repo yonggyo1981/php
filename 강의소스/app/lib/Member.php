@@ -104,6 +104,29 @@ class Member {
 	/** 로그인 처리 */
 	public function login($data) {
 		
+		if (!isset($data['memId']) || !$data['memId']) {
+			throw new Exception("아이디를 입력하세요.");
+		}
+		
+		if (!isset($data['memPw']) || !$data['memPw']) {
+			throw new Exception("비밀번호를 입력하세요.");
+		}
+		
+		// 회원정보 조회
+		$info = $this.get($data['memId'], true);// 비번 비교가 필요 하므로 2번째 매개변수 true
+		if (!$info) {
+			throw new Exception("존재하지 않는 회원입니다.");
+		}
+		
+		// 비밀번호 체크 
+		$match = password_verify($data['memPw'], $info['memPw']);
+		if (!$match) {
+			throw new Exception("비밀번호가 일치하지 않습니다.");
+		}
+		
+		// 토큰 발급 -> vue.js에서 로그인 유지 용도로 사용(유효시간...)
+		$token = $this.generateToken($data['memId']);
+		return $token;
 	}
 	
 	/** 
