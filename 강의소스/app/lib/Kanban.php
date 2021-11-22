@@ -140,6 +140,14 @@ class Kanban {
 	
 	/** 데이터 유효성 검사 */
 	public function checkData($data) {
+		if ($data['mode'] == 'edit') {
+			$this->required['idx'] = "작업등록번호가 누락되었습니다.";
+		}
 		
+		foreach ($this->required as $key => $msg) {
+			if (!isset($data[$key]) || ($data[$key] && trim($data[$key]) == "")) {
+				throw new Exception($msg);
+			}
+		}
 	}
 }
