@@ -50,7 +50,34 @@ class Kanban {
 	
 	/** 작업 수정 */
 	public function editWork($data) {
+		$this->required['idx'] = "작업등록번호가 누락되었습니다.";
+		$this->checkData($data);
 		
+		$info = $this.get($data['idx']);
+		if (!$info) {
+			throw new Exception("수정할 작업내역이 없습니다.");
+		}
+		
+		if ($info['memNo'] != $data['memNo']) {
+			throw new Exception("본인이 작성한 작업 내역만 수정 가능합니다.");
+		}
+		
+		$sql = "UPDATE worklist 
+						SET 
+							status = :status,
+							subject = :subject,
+							content = :content 
+					WHERE 
+						idx = :idx";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":status", $data['status']);
+		$stmt->bindValue(":subject", $data['subject']);
+		$stmt->bindValue(":content", $data['content']);
+		$stmt->bindValue(":idx", $data['idx']);
+		
+		$result = $stmt->execute();
+		
+		return $result;
 	}
 	
 	/** 작업 삭제 */
