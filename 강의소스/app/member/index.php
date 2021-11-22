@@ -31,4 +31,4 @@ try {
 	$message = $e->getMessage();
 }
 
-include_once "output.php";
+include_once "../output.php";
