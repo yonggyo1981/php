@@ -244,9 +244,35 @@
 		__toString() - 인스턴스를 출력할때 자동으로 호출되는 메서드
 		
 		__invoke() -> 인스턴스를 함수처럼 호출하면 클래스 내부의 __invoke()메서드가 호출된다.
-	  
-	    -- 오버로드 관련 메서드 
-		
+	    -- 오버로딩 관련 메서드 
+		 -> 없는 속성에 접근, 없는 메서드에 접근할때 자동으로 호출되는 메서드
+		 
+			속성 오버로딩
+			__set($name, $value) -> 없는 속성의 값을 변경, 접근불가능한 속성(private, protected)의 값을 변경할때 
+			
+			__get ($name) -> 없는 속성의 값을 읽거나, 접근불가능한 속성(private, protected)의 값을 읽을때 
+			
+			__isset($name) -> 없는 속성(+ 접근불가 속성)에 isset(), 또는 empty() 함수를 호출 했을 때 
+			
+			__unset($name) -> 없는 속성(+ 접근불가 속성)에 unset() 함수를 호출 할때 호출 된다.
+			
+			메서드 오버로딩
+			__call($name, $arguments) -> 없거나 접근불가 인스턴스 메서드를 호출 했을때 호출되는 메서드
+			($name - 메서드명, $arguments - 매개변수)
+			
+			static __callStatic($name, $arugment) -> 없거나 접근불가 정적(static) 메서드를 호출 했을 때 호출되는 메서드
+			($name - 메서드명, $arguments - 매개변수)
+			
+			
+	10) magic 상수(constant)
+		__LINE__ -> 파일에서 현재 실행중인 라인 넘버 
+		__FILE__  -> 현재 실행중인 파일의 파일명 포함 절대 경로
+		__DIR__   -> 현재 실행중인 파일의 절대 경로(파일명 포함 X)
+		__FUNCTION__ -> 현재 호출 중인 함수명
+		__CLASS__ -> 클래스명
+		__TRAIT__ -> Trait 명 
+		__NAMESPACE__ -> 현재 네임스페이스 값 
+	
 8. 	데이터베이스
 	PDO(PHP Data Object)
 	PDO::__construct($dsn - 데이터베이스 엔진 접속 정보, $username, $password)  throws PDOException 
