@@ -6,7 +6,12 @@
 */
 class Member {
 	private static $instance;
-	private function __construct() {}
+	
+	private $db;
+	
+	private function __construct() {
+		$this->db = DB::getInstance();
+	}
 	
 	public static function getInstance() {
 		if (!self::$instance) {
@@ -56,6 +61,10 @@ class Member {
 		if (preg_match($pattern, $memId)) {
 			throw new Exception("아이디는 알파벳,숫자만 입력 가능합니다.");
 		}
+		
+		// 아이디 중복여부 체크 
+		$sql = "SELECT COUNT(*) cnt FROM php_member 
+						WHERE memId = :memId";
 		
 		
 		// 비밀번호 체크 

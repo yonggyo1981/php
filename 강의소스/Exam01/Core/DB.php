@@ -4,7 +4,8 @@
 *
 */
 class DB extends PDO {
-	public function __construct() {
+	private static $instance;
+	private function __construct() {
 		try {
 			$dsn = "mysql:host=localhost;dbname=php_exam";
 			$username = "php_exam";
@@ -14,5 +15,13 @@ class DB extends PDO {
 			echo $e->getMessage();
 			exit;
 		}
+	}
+	
+	public static function getInstance() {
+		if (!self::$instance) {
+			self::$instance = new DB();
+		}
+		
+		return self::$instance;
 	}
 }
