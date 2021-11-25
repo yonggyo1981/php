@@ -97,7 +97,7 @@ class Member {
 						VALUES (:memId, :memPw, :memNm, :cellPhone)";
 		$stmt = $this->db->prepare($sql);
 		$stmt->bindValue(":memId", $memId);
-		$stmt->bindValue(":memPw", $memPw);
+		$stmt->bindValue(":memPw", $hash);
 		$stmt->bindValue(":memNm", $data['memNm']);
 		$stmt->bindValue(":cellPhone", $data['cellPhone']);
 		$result = $stmt->execute();
@@ -107,7 +107,7 @@ class Member {
 		
 		// 성공한 경우는 회원번호를 반환 
 		$memNo = $this->db->lastInsertId();
-		debug($memNo);
+		
 		return $memNo;
 	}
 	
@@ -148,5 +148,53 @@ class Member {
 		if (!preg_match($pattern, $cellPhone)) {
 			throw new Exception("휴대전화번호 형식이 아닙니다.");
 		}
+	}
+	
+	/**
+	* 로그인 처리 
+	*
+	*/
+	public function login($memId, $memPw) {
+		/**
+		* 1. 아이디로 회원 정보를 조회 
+		* 2. 회원정보가 있는 경우 -> 비밀번호 일치 여부 체크 
+		* 3. 비번일치 -> 세션에 회원번호 memNo를 설정 
+		* 4. 사이트 전역에 회원 정보를 유지
+		*/
+		
+		$info = $this->get($memId);
+		if (!$info) {
+			throw new Exception("존재하지 않는 회원입니다.");
+		}
+		
+		$match = password_verify($memPw, $info['memPw']);
+		if (!$match) {
+			throw new Exception("비밀번호가 일치하지 않습니다.");
+		}
+		
+		$_SESSION['memNo'] = $info['memNo'];
+	}
+	
+	/**
+	* 회원정보 조회 
+	*
+	* @param $memId - 정수이면 회원번호(memNo), 아니면 memId
+	*/
+	public function get($memId) {
+		$field = "memId"; // 회원아이디
+		if (is_numeric($memId)) {  // 회원번호
+			$field = "memNo";
+		}
+		
+		$sql = "SELECT * FROM php_member WHERE {$field} = :{$field}";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":{$field}", $memId);
+		$result = $stmt->execute();
+		if (!$result) {
+			return false;
+		}
+		
+		$info = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $info;
 	}
 }	
