@@ -65,6 +65,15 @@ class Member {
 		// 아이디 중복여부 체크 
 		$sql = "SELECT COUNT(*) cnt FROM php_member 
 						WHERE memId = :memId";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memId", $memId);
+		$result = $stmt->execute();
+		if ($result) {
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			if ($row['cnt'] > 0) {
+				throw new Exception("이미 가입된 회원입니다.");
+			}
+		}
 		
 		
 		// 비밀번호 체크 
@@ -77,7 +86,29 @@ class Member {
 		// 휴대전화번호 체크 
 		if (isset($data['cellPhone']) && $data['cellPhone']) {
 			$this->checkCellPhone($data['cellPhone']);
+			
+			$data['cellPhone'] = preg_replace("/[^0-9]/", "", $data['cellPhone']);
 		}
+		
+		/** 비밀번호 해시 처리 - password_hash */
+		$hash = password_hash($memPw, PASSWORD_BCRYPT, ["cost" => 10]);
+		
+		$sql = "INSERT INTO php_member (memId, memPw, memNm, cellPhone) 
+						VALUES (:memId, :memPw, :memNm, :cellPhone)";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memId", $memId);
+		$stmt->bindValue(":memPw", $memPw);
+		$stmt->bindValue(":memNm", $data['memNm']);
+		$stmt->bindValue(":cellPhone", $data['cellPhone']);
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Exception("회원가입 실패하였습니다.");
+		}
+		
+		// 성공한 경우는 회원번호를 반환 
+		$memNo = $this->db->lastInsertId();
+		debug($memNo);
+		return $memNo;
 	}
 	
 	/**
