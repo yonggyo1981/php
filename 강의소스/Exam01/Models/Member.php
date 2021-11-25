@@ -92,4 +92,21 @@ class Member {
 			throw new Exception("비밀번호확인이 일치하지 않습니다.");
 		}
 	}
+	
+	/** 
+	* 휴대전화번호 유효성 검사 
+	*
+	* @throws Exception
+	*/
+	public function checkCellPhone($cellPhone) {
+		/**
+		* 1. 휴대전화번호 형식 통일화 -> 숫자로만 변경 - preg_replace
+		* 2. 휴대전화번호 형식 체크 
+		*/
+		$cellPhone = preg_replace("/[^0-9]/", "", $cellPhone);
+		$pattern = "/^01[016][0-9]{3,4}[0-9]{4}$/";
+		if (!preg_match($pattern, $cellPhone)) {
+			throw new Exception("휴대전화번호 형식이 아닙니다.");
+		}
+	}
 }	
