@@ -197,4 +197,25 @@ class Member {
 		$info = $stmt->fetch(PDO::FETCH_ASSOC);
 		return $info;
 	}
+	
+	/**
+	* 로그인 여부 체크 
+	*
+	*/
+	public static function isLogin() {
+		return (isset($_SESSION['memNo']) && $_SESSION['memNo'])?true:false;
+	}
+	
+	/**
+	* 로그인 회원정보 유지 
+	*
+	*/
+	public static function init() {
+		$member = [];
+		if (self::isLogin()) {
+			$member = self::getInstance()->get($_SESSION['memNo']);
+		}
+		
+		return $member;
+	}
 }	
