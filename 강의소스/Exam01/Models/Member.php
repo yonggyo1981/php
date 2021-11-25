@@ -52,7 +52,7 @@ class Member {
 			throw new Exception("아이디는 6자리 이상 입력하세요.");
 		}
 		
-		$pattern = "/[^0-9a-z]/i" // 알파벳, 숫자 이외의 문자가 들어가 있으면 
+		$pattern = "/[^0-9a-z]/i"; // 알파벳, 숫자 이외의 문자가 들어가 있으면 
 		if (preg_match($pattern, $memId)) {
 			throw new Exception("아이디는 알파벳,숫자만 입력 가능합니다.");
 		}
