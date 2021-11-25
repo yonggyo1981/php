@@ -5,3 +5,7 @@ function debug($v) {
 	print_r($v);
 	echo "</xmp>";
 }
+
+function msg($message) {
+	echo "<script>alert('{$message}');</script>";
+}

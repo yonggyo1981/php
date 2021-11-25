@@ -1,4 +1,5 @@
 <?php
 session_start();
 include_once "Core/func.php";
-include_once "Core/DB1.php";
+include_once "Core/DB.php";
+include_once "Core/Request.php";
