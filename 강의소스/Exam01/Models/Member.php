@@ -214,6 +214,7 @@ class Member {
 		$member = [];
 		if (self::isLogin()) {
 			$member = self::getInstance()->get($_SESSION['memNo']);
+			unset($member['memPw']);
 		}
 		
 		return $member;
