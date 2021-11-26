@@ -1,9 +1,13 @@
 <form method="post" action="member_ps.php" target="ifrmHidden" autocomplete="off">
-	<input type="hidden" name="mode" value="join">
+	<input type="hidden" name="mode" value="<?=Member::isLogin()?"update":"join"?>">
 	<dl>
 		<dt>아이디</dt>
 		<dd>
-			<input type="text" name="memId">
+			<?php if (Member::isLogin()) : ?>
+				<?=$member['memId']?>
+			<?php else : ?>
+				<input type="text" name="memId">
+			<?php endif; ?>
 		</dd>
 	</dl>
 
@@ -22,14 +26,14 @@
 	<dl>
 		<dt>회원명</dt>
 		<dd>
-			<input type="text" name="memNm">
+			<input type="text" name="memNm" value="<?=isset($member['memNm'])?$member['memNm']:""?>">
 		</dd>
 	</dl>
 	<dl>
 		<dt>휴대전화번호</dt>
 		<dd>
-			<input type="text" name="cellPhone">
+			<input type="text" name="cellPhone" value="<?=isset($member['cellPhone'])?$member['cellPhone']:""?>">
 		</dd>
 	</dl>
-	<input type="submit" value="가입하기">
+	<input type="submit" value="<?=Member::isLogin()?"수정하기":"가입하기"?>">
 </form>
