@@ -112,6 +112,16 @@ class Member {
 	}
 	
 	/**
+	* 회원정보 수정 
+	*
+	* @param $data - 양식데이터 
+	* @throws Exception
+	*/
+	public function update($data) {
+		
+	}
+	
+	/**
 	* 비밀번호 체크 
 	*
 	* @throws Exception 유효성 검사 실패시 
