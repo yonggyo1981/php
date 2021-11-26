@@ -333,6 +333,29 @@ __FILE__ -> 현재 실행중인 파일의 절대 경로
 
 
 12. 파일
+쓰기
+fopen(파일 경로, mode)
+
+mode - r -> read(읽기 가능)
+           w -> write(쓰기 가능)
+		   a -> append("추가가능)
+
+		  rw("읽고 쓰기")
+		  
+fwrite -
+
+fclose
+
+읽기 
+fopen("파일 경로", mode - r)
+fread(.....) -> EOF(END OF FILE) -> feof($resouce...) -> true
+fclose(....);
+
+
+fgetcsv
+
+
+
 13. 내장 함수(String, Array ...)
 14. 컴포져
 
