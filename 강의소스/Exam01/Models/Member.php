@@ -118,8 +118,59 @@ class Member {
 	* @throws Exception
 	*/
 	public function update($data) {
+		if (!self::isLogin()) {
+			throw new Exception("잘못된 접근입니다.");
+		}
 		
+		$required = [
+			'memNm' => "회원명을 입력하세요.",
+		];
+		
+		foreach ($required as $field => $msg) {
+			if (!isset($data[$field]) || trim($data[$field]) == "") {
+				throw new Exception($msg);
+			}
+		}
+		
+		// 비밀번호 체크(비밀번호 변경 시도시)
+		$hash = "";
+		if (isset($data['memPw']) && trim($data['memPw'])) {
+			$this->checkPassword($data['memPw'], $data['memPwRe']);
+			
+			$hash = password_hash($data['memPw'], PASSWORD_BCRYPT, ["cost" => 10]);
+		}
+		
+		// 휴대전화번호 체크 
+		if (isset($data['cellPhone']) && trim($data['cellPhone'])) {
+			$this->checkCellPhone($data['cellPhone']);
+			$data['cellPhone'] = preg_replace("/[^\d]/", "", $data['cellPhone']);
+		}
+		
+		$memNo = $_SESSION['memNo'];
+		$addSet = "";
+		if ($hash) { // 회원이 비밀번호를 수정할 때 
+			$addSet = "memPw = :memPw,";
+		}
+		$sql = "UPDATE php_member 
+						SET 
+							memNm = :memNm,
+							{$addSet}
+							cellPhone = :cellPhone
+					WHERE 
+							memNo = :memNo";
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindValue(":memNm", $data['memNm']);
+		$stmt->bindValue(":cellPhone", $data['cellPhone']);
+		$stmt->bindValue(":memNo", $memNo, PDO::PARAM_INT); // 3번째 매개변수 PDO::PARAM_STR
+		if ($hash) {
+			$stmt->bindValue(":memPw", $hash);
+		}
+		$result = $stmt->execute();
+		if (!$result) {
+			throw new Exception("회원정보 수정 실패하였습니다.");
+		}
 	}
+	
 	
 	/**
 	* 비밀번호 체크 
