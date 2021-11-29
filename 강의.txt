@@ -352,9 +352,13 @@ fread(.....) -> EOF(END OF FILE) -> feof($resouce...) -> true
 fclose(....);
 
 fgetcsv
+CSV -> Comma(,) Separated Value
+TSV -> Tab(\t) Separated Value 
 
 
-fgets 
+fgets  - 한줄 한줄 읽을때 
+ 
+
 
 리눅스 파일/디렉토리 권한 
 본인 사용자       그룹사용자         다른 사용자
