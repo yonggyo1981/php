@@ -358,6 +358,10 @@ TSV -> Tab(\t) Separated Value
 
 fgets  - 한줄 한줄 읽을때 
  
+ 
+file_get_contents("파일 경로, URL");
+file_put_contents("파일 경로", "작성할 데이터");
+ 
 
 
 리눅스 파일/디렉토리 권한 
@@ -376,6 +380,14 @@ x(실행) - 1
 777
 
 chomd 권한 숫자 (-r) 디렉토리/파일 
+
+cURL - HttpRequest
+curl_init() -> curl 세션 열기 
+curl_setopt(); 
+curl_close() ->curl 세션 닫기 
+curl_exec() -> 요청 전송 
+
+
 
 13. 내장 함수(String, Array ...)
 14. 컴포져
