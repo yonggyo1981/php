@@ -351,10 +351,27 @@ fopen("파일 경로", mode - r)
 fread(.....) -> EOF(END OF FILE) -> feof($resouce...) -> true
 fclose(....);
 
-
 fgetcsv
 
 
+fgets 
+
+리눅스 파일/디렉토리 권한 
+본인 사용자       그룹사용자         다른 사용자
+rwx                  rwx                   rwx
+
+r - 4
+w - 2
+x(실행) - 1
+
+7 - r(4) + w(2) + x(1)
+5 -> r(4) + x(1)
+6 -> r + w
+
+
+777
+
+chomd 권한 숫자 (-r) 디렉토리/파일 
 
 13. 내장 함수(String, Array ...)
 14. 컴포져
