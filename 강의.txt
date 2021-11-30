@@ -385,9 +385,16 @@ cURL - HttpRequest
 curl_init() -> curl 세션 열기 
 curl_setopt(); 
 curl_close() ->curl 세션 닫기 
-curl_exec() -> 요청 전송 
+curl_exec() -> 요청 전송(외부 프로그램 실행 함수)
+ 
+exec - 콘솔 명령어를 실행하는 함수 
 
 
+
+url -> % 인코딩 
+PHP -> urlencode() <-----> urldecode()
+Javascript -> encodeURIComponent() <-------> decodeURIComponent()
+Java -> java.net.URLEncoder.encode() <--------> Java.net.URLDecoder.decode()
 
 13. 내장 함수(String, Array ...)
 14. 컴포져
