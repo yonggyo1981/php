@@ -452,3 +452,15 @@ strtotime("문자열 시간");
 줄개행 문자(\r\n -> <br>)
 nl2br()
 
+
+
+
+
+소셜 로그인 
+카카오 로그인
+REST API KEY - a49982d3c0b5160ed483b2cba8629050
+
+CLIENT SECRET - tSmwVxinMEA5dIYPKGbTnaxsRRonIuIi
+
+REDIRECT URI 
+http://yonggyo.com/~webclass/Exam01/member/social_login.php
