@@ -383,7 +383,7 @@ chomd 권한 숫자 (-r) 디렉토리/파일
 
 cURL - HttpRequest
 curl_init() -> curl 세션 열기 
-curl_setopt(); 
+curl_setopt();  // curl_setopt_array();
 curl_close() ->curl 세션 닫기 
 curl_exec() -> 요청 전송(외부 프로그램 실행 함수)
  
@@ -396,7 +396,15 @@ PHP -> urlencode() <-----> urldecode()
 Javascript -> encodeURIComponent() <-------> decodeURIComponent()
 Java -> java.net.URLEncoder.encode() <--------> Java.net.URLDecoder.decode()
 
+http_build_query() -> 배열 -> 인코딩된 쿼리스트링 형태의 문자열
+
+
+응답헤더 -> header(.....);
+
+-> 소셜 로그인(카카오, 네이버)
+
 13. 내장 함수(String, Array ...)
+
 14. 컴포져
 
 15. 기타

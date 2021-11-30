@@ -13,3 +13,7 @@ function msg($message) {
 function go($url, $target = "self") {
 	echo "<script>{$target}.location.replace('{$url}');</script>";
 }
+
+function reload($target = "self") {
+	echo "<script>{$target}.location.reload();</script>";
+}
