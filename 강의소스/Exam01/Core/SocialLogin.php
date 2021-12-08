@@ -22,4 +22,15 @@ abstract class SocialLogin {
 	*
 	*/
 	public abstract function getProfile($accessToken);
+	
+	/**
+	* 위변조 방지 State 값 생성
+	*
+	*/
+	protected function getState() {
+		list($msec, $sec) = explode(" ", microtime());
+		$state = round(($sec + $msec) * 1000);
+		
+		return $state;
+	}
 }

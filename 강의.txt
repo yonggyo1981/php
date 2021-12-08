@@ -499,3 +499,7 @@ http://yonggyo.com/~webclass/Exam01/member/social_login.php
 	네임스페이스와 관련 없는 전역에 적용되어 있는 클래스나 함수를 접근할때는 \를 사용한다
 	Exception -> 전역 클래스 -> \Exception 
 	PDO   -> 전역 클래스 -> \PDO
+	
+
+	json_decode -> JSON -> PHP 배열, 객체 변환 
+	json_encode -> PHP 배열 -> JSON으로 변환 

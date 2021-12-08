@@ -1,6 +1,8 @@
 <?php
 include "../_common.php";
 include "../Outline/_header.php";
+$kakaoLogin = KakaoLogin::getInstance();
+$codeURL = $kakaoLogin->getCodeURL();
 ?>
 <h1>로그인</h1>
 <form method="post" action="member_ps.php" target="ifrmHidden" autocomplete="off">
@@ -19,5 +21,8 @@ include "../Outline/_header.php";
 	</dl>
 	<input type="submit" value="로그인">
 </form>
+
+<a href="<?=$codeURL?>">카카오 아이디로 로그인</a>
+
 <?php
 include "../Outline/_footer.php";
