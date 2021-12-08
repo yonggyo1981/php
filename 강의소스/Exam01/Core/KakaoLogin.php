@@ -77,10 +77,19 @@ class KakaoLogin extends SocialLogin {
 	
 	public function getProfile($accessToken) {
 		$url = "https://kapi.kakao.com/v2/user/me";
+		$headers = ["Authorization: Bearer ".$accessToken];
 		$ch = curl_init();
 		curl_setopt_array($ch, [
 			CURLOPT_URL => $url,
+			CURLOPT_POST => true,
+			CURLOPT_HTTPHEADER => $headers,
+			CURLOPT_RETURNTRANSFER => true,
 		]);
+		
+		$result = curl_exec($ch);
 		curl_close($ch);
+		
+		$result = json_decode($result, true);
+		return $result;
 	}
 }

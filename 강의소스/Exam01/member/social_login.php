@@ -9,7 +9,7 @@ try {
 	$accessToken = $kakaoLogin->getAccessToken($code, $state);
 	
 	$profile = $kakaoLogin->getProfile($accessToken);
-	
+	//debug($profile);
 } catch (Exception $e) {
 	msg($e->getMessage());
 	go("../member/login.php");
