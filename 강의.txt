@@ -403,9 +403,30 @@ http_build_query() -> 배열 -> 인코딩된 쿼리스트링 형태의 문자열
 
 -> 소셜 로그인(카카오, 네이버)
 
-13. 내장 함수(String, Array ...)
 
-14. 컴포져
+
+13. 내장 함수(String, Array ...)
+String -> String functions
+Array -> Array functions 
+
+14. 컴포져 
+- PSR 
+composer require 벤더명/패키지명 -> 설치 
+composer remove 벤더명/패키지명 -> 삭제
+
+설치하면 
+	composer.json 
+	
+패키지 자동 설치
+composer install 
+
+패키지 설치 
+		vendor - 설치된 패키지
+			- autoload.php  -> 설치된 패키지 자동 로드 
+			
+		composer.json -> 설치된 패키지
+		
+
 
 15. 기타
 PHP 배열 -> JSON -> json_encode(배열)
